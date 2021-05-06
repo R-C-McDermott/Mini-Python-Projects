@@ -3,10 +3,10 @@
 
 This project folder so far includes:
 
-1) Hangman
-2) Tic Tac Toe
+i) Hangman
+ii) Tic Tac Toe
 
-1) & 2) can be executed via the command line
+i) & ii) can be executed via the command line
 
 (Ensure sowpods.txt is in same directory as hangman_game.py)
 
