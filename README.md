@@ -13,3 +13,5 @@ i) & ii) can be executed via the command line
 ![Screenshot](screenshot_hangman.png)
 
 ![Screenshot](screenshot_tictactoe.png)
+
+![Screenshot](passwordgen.png)
