@@ -5,6 +5,7 @@ This project folder so far includes:
 
 i) Hangman
 ii) Tic Tac Toe
+iii) Password generator GUI
 
 i) & ii) can be executed via the command line
 
