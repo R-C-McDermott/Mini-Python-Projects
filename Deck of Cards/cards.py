@@ -1,17 +1,21 @@
-# Building a deck of cards using Loop
+'''
+-Building a deck of cards using OOP-
 
-import random
+To be eventually used as card game project
 
+'''
+import random # to be used for shuffling
+
+# Card suits and values
 suits = ["Hearts", "Diamonds", "Spades", "Clubs"]
 values = [x for x in range(1,14)]
 
 class Card:
-
     def __init__(self, suit, number):
-
         self.suit = suit
         self.number = number
 
+    # Change format of some values
     def changeFormat(self, card_value):
         if card_value == 1:
             card_value = "Ace"
@@ -27,7 +31,6 @@ class Card:
         print(f"{self.number} of {self.suit}")
 
 class Deck:
-
     def __init__(self):
         self.cards = []
         self.buildDeck()
@@ -53,8 +56,7 @@ class Player:
         self.name = name
         self.hand = []
 
-    def draw(self, deck):
-        number_of_cards = 2
+    def draw(self, deck, number_of_cards):
         for i in range(number_of_cards):
             self.hand.append(deck.drawCard())
 
@@ -71,7 +73,7 @@ def main():
     print(f"Deck size: {d.deckSize()}")
 
     # Player draws hand and shows
-    p.draw(d)
+    p.draw(d, number_of_cards=2)
     p.showHand()
 
     # Check deck size again to ensure everything is working properly
