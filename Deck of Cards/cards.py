@@ -51,6 +51,10 @@ class Deck:
     def drawCard(self):
         return self.cards.pop()
 
+    def shuffleDeck(self):
+        random.shuffle(self.cards)
+
+
 class Player:
     def __init__(self, name):
         self.name = name
@@ -62,12 +66,14 @@ class Player:
 
     def showHand(self):
         for h in self.hand:
+            h.changeFormat(h.number)
             h.show()
 
 def main():
     # Create Player and Deck
     p = Player("Ryan")
     d = Deck()
+    d.shuffleDeck()
 
     # Check deck size
     print(f"Deck size: {d.deckSize()}")
