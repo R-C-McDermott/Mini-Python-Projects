@@ -3,6 +3,9 @@
 # By Ryan C. McDermott
 import os
 import time
+import colorama
+from colorama import Fore, Back, Style
+colorama.init()
 
 def return_linecount(filename):
     with open(filename, 'r') as f:
@@ -11,7 +14,10 @@ def return_linecount(filename):
 def print_to_do(filename):
     with open(filename, 'r') as f:
         for line in f.readlines():
-            print(line.strip("\n"))
+            if "Checked" in line:
+                print(Fore.GREEN + line.strip("\n") + Style.RESET_ALL)
+            else:
+                print(Fore.RED + line.strip("\n") + Style.RESET_ALL)
 
 def append_to_do(filename):
     count = (return_linecount(filename) + 1)
