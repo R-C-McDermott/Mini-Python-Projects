@@ -98,7 +98,7 @@ def main():
     # File creation/appending
 
     if os.path.isfile(filename) is True:
-        _, month, day, _, year = time.ctime(os.path.getctime(filename)).split(" ")
+        _, month, day, _, year = time.ctime(os.path.getmtime(filename)).split(" ")
         _, today_month, today_day, _, today_year = time.ctime().split(" ")
     if os.path.isfile(filename) is False:
         file = open(filename, "w+")
@@ -117,4 +117,6 @@ def main():
 if __name__ == "__main__":
     filename = os.path.join(os.getcwd(), "todo.txt")
     main()
+
+
 
