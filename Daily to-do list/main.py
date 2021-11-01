@@ -98,8 +98,16 @@ def main():
     # File creation/appending
 
     if os.path.isfile(filename) is True:
-        _, month, day, _, year = time.ctime(os.path.getmtime(filename)).split(" ")
-        _, today_month, today_day, _, today_year = time.ctime().split(" ")
+        try:
+            _, month, day, _, year = time.ctime(os.path.getmtime(filename)).split(" ")
+            _, today_month, today_day, _, today_year = time.ctime().split(" ")
+        except ValueError:
+            try:
+                _, month, _, day, _, year = time.ctime(os.path.getmtime(filename)).split(" ")
+                _, today_month, _, today_day, _, today_year = time.ctime().split(" ")
+            except ValueError:
+                _, month, day, _, year = time.ctime(os.path.getmtime(filename)).split(" ")
+                _, today_month, _, today_day, _, today_year = time.ctime().split(" ")
     if os.path.isfile(filename) is False:
         file = open(filename, "w+")
         print("New to-do list ready!\n")
