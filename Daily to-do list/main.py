@@ -56,6 +56,29 @@ def checkoff_to_do(filename):
     else:
         print("To-do list is empty!")
 
+def append_routine(filename, routine_file):
+    count = (return_linecount(filename) + 1)
+    while True:
+        routine_input = input("Would you like to append normal routine items? (y/n)\n>")
+        if routine_input.strip().lower() not in ["y", "n"]:
+            print("Invalid input, please try again")
+            continue
+        else:
+            break
+    if routine_input.strip().lower() == "y":
+        with open(routine_file) as r:
+            lines = r.readlines()
+            lines = [l for l in lines]
+            with open(filename, "w") as f:
+                for i in lines:
+                    f.write(str(count) + ") " + i)
+                    count += 1
+                f.write("\n")
+        print("Daily routine added!")
+    if routine_input.strip().lower() == "n":
+        print("No routine added!")
+
+
 def user_loop():
 
     while True:
@@ -117,11 +140,13 @@ def main():
         file = open(filename, "w+")
         print("New to-do list ready!\n")
         file.close()
+        append_routine(filename, routine_file)
         user_loop()
     elif (day, month, year) != (today_day, today_month, today_year):
         file = open(filename, "w+")
         print("New to-do list ready!\n")
         file.close()
+        append_routine(filename, routine_file)
         user_loop()
     else:
         print("Opening existing to-do list!\n")
@@ -129,6 +154,7 @@ def main():
 
 if __name__ == "__main__":
     filename = os.path.join(os.getcwd(), "todo.txt")
+    routine_file = os.path.join(os.getcwd(), "routine.txt")
     main()
 
 
