@@ -4,27 +4,29 @@
 import os
 import time
 import colorama
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 colorama.init()
+
 
 def return_linecount(filename):
     with open(filename, 'r') as f:
         return len(f.readlines())
 
+
 def print_to_do(filename):
     with open(filename, 'r') as f:
-        for line in f.readlines():
+        for i, line in enumerate(f.readlines()):
             if "Checked" in line:
-                print(Fore.GREEN + line.strip("\n") + Style.RESET_ALL)
+                print(Fore.GREEN + f"{i + 1}) " + line.strip("\n") + Style.RESET_ALL)
             else:
-                print(Fore.RED + line.strip("\n") + Style.RESET_ALL)
+                print(Fore.RED + f"{i + 1}) " + line.strip("\n") + Style.RESET_ALL)
+
 
 def append_to_do(filename):
-    count = (return_linecount(filename) + 1)
     with open(filename, 'a') as f:
         while True:
             list_item = input("Add item to to-do list:\n>")
-            f.write(str(count) + ") " + list_item + "\n")
+            f.write(list_item + "\n")
             while True:
                 cont = input("Add another item? (y/n):\n>")
                 if cont not in ["y", "n"]:
@@ -33,10 +35,30 @@ def append_to_do(filename):
                 else:
                     break
             if cont == "y":
-                count += 1
                 continue
             if cont == "n":
                 break
+
+
+def remove_item(filename):
+    if return_linecount(filename) > 0:
+        while True:
+            print_to_do(filename)
+            remove_index = int(input(f"Please choose item number between 1-{return_linecount(filename)} from above to remove item\n>"))
+            if remove_index not in [x + 1 for x in range(return_linecount(filename))]:
+                print("Invalid input, please try again")
+                continue
+            else:
+                break
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+        with open(filename, 'w') as output:
+            for line in lines:
+                if line != lines[remove_index - 1]:
+                    output.writelines(line)
+    else:
+        print("To-do list is empty!")
+
 
 def checkoff_to_do(filename):
     if return_linecount(filename) > 0:
@@ -56,8 +78,8 @@ def checkoff_to_do(filename):
     else:
         print("To-do list is empty!")
 
+
 def append_routine(filename, routine_file):
-    count = (return_linecount(filename) + 1)
     while True:
         routine_input = input("Would you like to append normal routine items? (y/n)\n>")
         if routine_input.strip().lower() not in ["y", "n"]:
@@ -68,11 +90,9 @@ def append_routine(filename, routine_file):
     if routine_input.strip().lower() == "y":
         with open(routine_file) as r:
             lines = r.readlines()
-            lines = [l for l in lines]
             with open(filename, "w") as f:
-                for i in lines:
-                    f.write(str(count) + ") " + i)
-                    count += 1
+                for line in lines:
+                    f.write(line)
                 f.write("\n")
         print("Daily routine added!")
     if routine_input.strip().lower() == "n":
@@ -83,7 +103,7 @@ def user_loop():
 
     while True:
         user_input = input("What would you like to do? - Type 'help' for more information or press CRTL-C to exit\n>")
-        if user_input.strip().lower() not in ["r", "a", "c", "help", "exit"]:
+        if user_input.strip().lower() not in ["r", "a", "c", "d", "help", "exit"]:
             print("Invalid input, please try again")
             continue
         if user_input.strip().lower() == "help":
@@ -91,6 +111,7 @@ def user_loop():
                   "r - Read to-do list\n"
                   "a - add to to-do list\n"
                   "c - Check-off list item\n"
+                  "d - Delete list item\n"
                   )
         else:
             break
@@ -101,7 +122,8 @@ def user_loop():
         append_to_do(filename)
     if user_input.lower() == "c":
         checkoff_to_do(filename)
-
+    if user_input.lower() == "d":
+        remove_item(filename)
 
     while True:
         prompt = input("Would you like to continue: (y/n)\n>")
@@ -151,6 +173,7 @@ def main():
     else:
         print("Opening existing to-do list!\n")
         user_loop()
+
 
 if __name__ == "__main__":
     filename = os.path.join(os.getcwd(), "todo.txt")
